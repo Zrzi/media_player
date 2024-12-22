@@ -54,9 +54,9 @@ public class MainPage extends JFrame {
         this.setTitle("多媒体播放器");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setSize(1200, 800);
+        this.setSize(1200, 750);
         this.setResizable(false);
-        this.setLocation(180, 80);
+        this.setLocation(180, 100);
 
         this.setLayout(null);
 
@@ -75,7 +75,7 @@ public class MainPage extends JFrame {
                 }
             }
         });
-        this.prevButton.setBounds(450, 20, 50, 20);
+        this.prevButton.setBounds(470, 20, 50, 20);
         this.add(prevButton);
 
         this.nextButton = new JButton(">");
@@ -88,7 +88,7 @@ public class MainPage extends JFrame {
                 }
             }
         });
-        this.nextButton.setBounds(600, 20, 50, 20);
+        this.nextButton.setBounds(620, 20, 50, 20);
         this.add(nextButton);
 
         this.stopButton = new JButton("停止");
@@ -96,7 +96,7 @@ public class MainPage extends JFrame {
             stopButton.setEnabled(false);
             mediaPlayerController.stop();
         });
-        this.stopButton.setBounds(520, 20, 60, 20);
+        this.stopButton.setBounds(540, 20, 60, 20);
         this.stopButton.setEnabled(false);
         this.add(stopButton);
 
