@@ -1,6 +1,9 @@
 package com.dongling.mediaplayer.pojo;
 
 import com.dongling.mediaplayer.enums.FileTypesEnum;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 public class FileDescription {
 
@@ -42,6 +45,6 @@ public class FileDescription {
 
     @Override
     public String toString() {
-        return this.fileName;
+        return String.format("%-64s%32s", fileName, fileType.getCode());
     }
 }

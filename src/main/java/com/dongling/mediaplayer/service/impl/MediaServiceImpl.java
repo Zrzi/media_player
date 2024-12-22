@@ -6,16 +6,18 @@ import com.dongling.mediaplayer.pojo.singlton.ProcessHolder;
 import com.dongling.mediaplayer.service.MediaService;
 import com.dongling.mediaplayer.utils.FileChecker;
 import jakarta.annotation.PreDestroy;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.nio.file.Paths;
 
-@Slf4j
 @Service
 public class MediaServiceImpl implements MediaService {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(MediaServiceImpl.class);
 
     @Override
     public void play(String absolutePath, FileTypesEnum fileType) {
@@ -33,7 +35,7 @@ public class MediaServiceImpl implements MediaService {
         try {
             ProcessHolder.start(processBuilder);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -42,35 +44,35 @@ public class MediaServiceImpl implements MediaService {
         try {
             ProcessHolder.stopProcess();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
     private void checkValidFile(String absolutePath, FileTypesEnum fileType) {
         if (StringUtils.isBlank(absolutePath)) {
-            log.info("接收到的路径为空。");
+            LOGGER.info("接收到的路径为空。");
             throw new BizException("路径不能为空。");
         }
         File file = Paths.get(absolutePath).toFile();
         if (!file.exists()) {
-            log.info("接收到的路径{}不存在。", absolutePath);
+            LOGGER.info("接收到的路径{}不存在。", absolutePath);
             throw new BizException("路径不存在。");
         }
         switch (fileType) {
             case FileTypesEnum.MP3:
                 if (!FileChecker.isMP3File(file)) {
-                    log.info("接收到的文件{}不是MP3文件。", absolutePath);
+                    LOGGER.info("接收到的文件{}不是MP3文件。", absolutePath);
                     throw new BizException("不是MP3文件。");
                 }
                 break;
             case FileTypesEnum.MP4:
                 if (!FileChecker.isMP4File(file)) {
-                    log.info("接收到的文件{}不是MP4文件。", absolutePath);
+                    LOGGER.info("接收到的文件{}不是MP4文件。", absolutePath);
                     throw new BizException("不是MP4文件。");
                 }
                 break;
             default:
-                log.info("接收到的文件{}类型是{}，不支持。", absolutePath, fileType.getCode());
+                LOGGER.info("接收到的文件{}类型是{}，不支持。", absolutePath, fileType.getCode());
                 throw new BizException("不支持的文件类型。");
         }
     }
@@ -80,7 +82,7 @@ public class MediaServiceImpl implements MediaService {
         try {
             ProcessHolder.stopProcess();
         } catch (Exception e) {
-            log.error(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 

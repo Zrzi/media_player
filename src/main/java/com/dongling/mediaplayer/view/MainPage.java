@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -59,14 +60,19 @@ public class MainPage extends JFrame {
         this.add(backButton);
 
         this.stopButton = new JButton("停止");
-        this.stopButton.addActionListener(e -> mediaPlayerController.stop());
+        this.stopButton.addActionListener(e -> {
+            stopButton.setEnabled(false);
+            mediaPlayerController.stop();
+        });
         this.stopButton.setBounds(500, 20, 100, 20);
+        this.stopButton.setEnabled(false);
         this.add(stopButton);
 
         this.listModel = new DefaultListModel<>();
         this.list = new JList<>(listModel);
         this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.list.setVisibleRowCount(-1);
+        this.list.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
         this.list.addMouseListener(new MouseAdapter() {
             @Override
@@ -80,6 +86,7 @@ public class MainPage extends JFrame {
                     changeCurrentPath(newCurrentPath);
                 } else {
                     mediaPlayerController.play(selectedValue.getAbsolutePath(), selectedValue.getFileType());
+                    stopButton.setEnabled(true);
                 }
             }
         });
