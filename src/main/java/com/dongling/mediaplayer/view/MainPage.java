@@ -39,6 +39,8 @@ public class MainPage extends JFrame {
 
     private JButton nextButton;
 
+    private JLabel pathLabel;
+
     private DefaultListModel<FileDescription> listModel;
 
     private JList<FileDescription> list;
@@ -124,6 +126,11 @@ public class MainPage extends JFrame {
         this.pane.setBounds(60, 60, 1060, 550);
         this.add(pane);
 
+        this.pathLabel = new JLabel(currentPath);
+        this.pathLabel.setBounds(60, 620, 1060, 20);
+        this.pathLabel.setFont(new Font("Monospaced", Font.PLAIN, 15));
+        this.add(pathLabel);
+
         this.changeCurrentPath(currentPath);
 
         this.setVisible(true);
@@ -139,6 +146,7 @@ public class MainPage extends JFrame {
 
     private void changeCurrentPath(String currentPath) {
         this.currentPath = currentPath;
+        this.pathLabel.setText(currentPath);
         List<FileDescription> fileNames = fileController.getFilesWithinDirectory(currentPath);
         this.listModel.clear();
         this.listModel.addAll(fileNames);
