@@ -6,9 +6,9 @@ public enum FileTypesEnum {
 
     FOLDER("folder", "文件夹"),
 
-    MP4("mp4", "mp4类型文件"),
+    MP4("mp4", "mp4文件"),
 
-    MP3("mp3", "mp3类型文件"),
+    MP3("mp3", "mp3文件"),
 
     ;
 

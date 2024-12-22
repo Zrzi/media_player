@@ -35,6 +35,10 @@ public class MainPage extends JFrame {
 
     private JButton stopButton;
 
+    private JButton prevButton;
+
+    private JButton nextButton;
+
     private DefaultListModel<FileDescription> listModel;
 
     private JList<FileDescription> list;
@@ -59,12 +63,38 @@ public class MainPage extends JFrame {
         this.backButton.setBounds(60, 20, 100, 20);
         this.add(backButton);
 
+        this.prevButton = new JButton("<");
+        this.prevButton.addActionListener(e -> {
+            if (Objects.nonNull(list.getSelectedValue())) {
+                int selectedIndex = list.getSelectedIndex();
+                if (selectedIndex > 0 && !Objects.equals(listModel.get(selectedIndex - 1).getFileType(), FileTypesEnum.FOLDER)) {
+                    list.setSelectedIndex(selectedIndex - 1);
+                    playMedia();
+                }
+            }
+        });
+        this.prevButton.setBounds(450, 20, 50, 20);
+        this.add(prevButton);
+
+        this.nextButton = new JButton(">");
+        this.nextButton.addActionListener(e -> {
+            if (Objects.nonNull(list.getSelectedValue())) {
+                int selectedIndex = list.getSelectedIndex();
+                if (selectedIndex < listModel.size() - 1 && !Objects.equals(listModel.get(selectedIndex + 1).getFileType(), FileTypesEnum.FOLDER)) {
+                    list.setSelectedIndex(selectedIndex + 1);
+                    playMedia();
+                }
+            }
+        });
+        this.nextButton.setBounds(600, 20, 50, 20);
+        this.add(nextButton);
+
         this.stopButton = new JButton("停止");
         this.stopButton.addActionListener(e -> {
             stopButton.setEnabled(false);
             mediaPlayerController.stop();
         });
-        this.stopButton.setBounds(500, 20, 100, 20);
+        this.stopButton.setBounds(520, 20, 60, 20);
         this.stopButton.setEnabled(false);
         this.add(stopButton);
 
@@ -85,14 +115,13 @@ public class MainPage extends JFrame {
                     String newCurrentPath = currentPath + (StringUtils.endsWith(currentPath, "\\") ? "" : "\\") + selectedValue.getFileName();
                     changeCurrentPath(newCurrentPath);
                 } else {
-                    mediaPlayerController.play(selectedValue.getAbsolutePath(), selectedValue.getFileType());
-                    stopButton.setEnabled(true);
+                    playMedia();
                 }
             }
         });
 
         this.pane = new JScrollPane(list);
-        this.pane.setBounds(60, 60, 1000, 600);
+        this.pane.setBounds(60, 60, 1060, 550);
         this.add(pane);
 
         this.changeCurrentPath(currentPath);
@@ -113,6 +142,11 @@ public class MainPage extends JFrame {
         List<FileDescription> fileNames = fileController.getFilesWithinDirectory(currentPath);
         this.listModel.clear();
         this.listModel.addAll(fileNames);
+    }
+
+    private void playMedia() {
+        mediaPlayerController.play(this.list.getSelectedValue().getAbsolutePath(), this.list.getSelectedValue().getFileType());
+        stopButton.setEnabled(true);
     }
 
 }
